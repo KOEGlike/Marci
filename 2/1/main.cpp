@@ -1,55 +1,64 @@
 #include <iostream>
 #include <vector>
+#include <fstream>
 
 using namespace std;
 
-#define MAX_K 170
-#define LEN MAX_K * 6 + 1
-
-void eratoszteneszSzitaja(int n, int primek[])
+void eratoszteneszSzitaja(int n, vector<int> &primek)
 {
-    primek[0]=2;
-    primek[1]=3;
+    primek.push_back(2);
+    primek.push_back(3);
 
-    int db=2;
-
-    for (int k = 1; k < MAX_K; k++)
+    for (int k = 1; primek.size() < n; k++)
     {
         for (int i = 0; i <= 1; i++)
         {
             int candidate = 6 * k + (i * 2 - 1);
 
             int j=0;
-            for(; j<db; j++) {
+            for(; j<primek.size(); j++) {
                 if(candidate%primek[j] == 0) {
                     break;
                 }
             }
-            if(j==db) {
-                primek[db]=candidate;
-                db++;
+            if(j==primek.size()) {
+                primek.push_back(candidate);
             }
 
-            if(n==db) {
+            if(n==primek.size()) {
                 return;
             }
         }
     }
 }
 
-void kiir(int n, int tomb[]) {
-    for(int i=0; i<n; i++) {
-        cout<<tomb[i]<<" ";
+void kiir(vector<int> &tomb) {
+    for(int e:tomb) {
+        cout<<e<<" ";
     }
+}
+
+void fajlbaIr(vector<int> &tomb) {
+    ofstream fajl("primek.txt");
+    if (!fajl.is_open()) {
+        cout << "Nem sikerült megnyitni a fájlt!" << endl;
+        return;
+    }
+    for(int e:tomb) {
+        fajl<<e<<" ";
+    }
+    fajl.close();
 }
 
 int main()
 {
-    int primek[LEN], n;
+    int n;
+    vector<int> primek;
     cout<<"n=";
     cin>>n;
     eratoszteneszSzitaja(n, primek);
-    kiir(n, primek);
+    kiir(primek);
+    fajlbaIr(primek);
 
     return 0;
 }
