@@ -3,25 +3,16 @@
 
 using namespace std;
 
-class Lista
+struct ListaNode
 {
-private:
     int adat;
-    Lista *next;
+    ListaNode *next;
 
-    // Lista *getNode(int index)
-    // {
-    //     Lista *current = this;
-    //     for (int i = 0; i <= index && current->next != nullptr; i++)
-    //     {
-    //         current = current->next;
-    //     }
-    //     return current;
-    // }
-
-public:
-    Lista(int adat, Lista *next = nullptr) : adat(adat), next(next) {}
-    ~Lista()
+    ListaNode(int adat)
+    {
+        this->adat = adat;
+    }
+    ~ListaNode()
     {
         if (this->next != nullptr)
         {
@@ -29,34 +20,16 @@ public:
         }
     }
 
-    // void removeFrom(int inedx)
-    // {
-    //     Lista *node = getNode(inedx);
-
-    //     node->removeFrom(0)
-
-    //     delete node;
-    // }
-
-    void felfuz_hatul(int adat)
+    void felfuz(int adat)
     {
         if (next == nullptr)
         {
-            next = new Lista(adat);
+            next = new ListaNode(adat);
         }
         else
         {
-            next->felfuz_hatul(adat);
+            next->felfuz(adat);
         }
-    }
-
-    Lista *felfuz_elol(int adat)
-    {
-        Lista *new_node = new Lista(adat);
-
-        new_node->next = this;
-
-        return new_node;
     }
 
     void print()
@@ -67,36 +40,94 @@ public:
             next->print();
         }
     }
+};
 
-    // int get(int index)
-    // {
-    //     Lista *node = getNode(index);
-    //     return node->adat;
-    // }
+class Queue
+{
+    ListaNode *first;
+    ListaNode *last;
 
-    // void remove(int index)
-    // {
-    //     Lista *node = getNode(index - 1);
-    //     Lista *next_node = node->next;
-    //     Lista *next_next_node = next_node->next;
+public:
+    Queue()
+    {
+        first = nullptr;
+        last = nullptr;
+    }
 
-    //     delete next_node;
-    //     if (next_next_node != nullptr)
-    //     {
-    //         node->next = next_next_node;
-    //     }
-    // }
+    ~Queue()
+    {
+        if (first)
+        {
+            delete first;
+        }
+        first = last = nullptr;
+    }
+
+    void push(int adat)
+    {
+        ListaNode *new_node = new ListaNode(adat);
+        if (first)
+        {
+            last->next = new_node;
+
+            last = last->next;
+        }
+        else
+        {
+            first = new_node;
+            last = new_node;
+        }
+    }
+
+    int elso()
+    {
+        return first ? first->adat : 0;
+    }
+
+    int utolso()
+    {
+        return last ? last->adat : 0;
+    }
+
+    int pop()
+    {
+        if (first != nullptr)
+        {
+            int adat = first->adat;
+            ListaNode *temp = first;
+            first = first->next;
+            temp->next = nullptr;
+            delete temp;
+            return adat;
+        }
+        return 0;
+    }
+
+    bool isEmpty()
+    {
+        return first == nullptr;
+    }
 };
 
 int main()
 {
-    Lista *l = new Lista(5);
+    // ListaNode *l = new ListaNode(5);
 
+    // for (int i = 0; i < 10; i++)
+    // {
+    //     l->felfuz(rand() % 101);
+    // }
+
+    // l->print();
+
+    Queue q;
     for (int i = 0; i < 10; i++)
     {
-        l = l->felfuz_elol(rand() % 101);
+        q.push(rand() % 101);
     }
-
-    l->print();
+    while (!q.isEmpty())
+    {
+        cout << q.pop() << " ";
+    }
     return 0;
 }
