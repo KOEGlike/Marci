@@ -11,6 +11,7 @@ struct ListaNode
     ListaNode(int adat)
     {
         this->adat = adat;
+        this->next = nullptr; // Explicitly initialize next to nullptr
     }
     ~ListaNode()
     {
@@ -69,14 +70,14 @@ public:
         if (first)
         {
             last->next = new_node;
-
-            last = last->next;
+            last = new_node;
         }
         else
         {
             first = new_node;
             last = new_node;
         }
+        cout << "new node added: " << new_node->adat << endl;
     }
 
     int elso()
@@ -100,7 +101,11 @@ public:
             delete temp;
             return adat;
         }
-        return 0;
+        else
+        {
+            cout << "Attempted to pop from an empty queue!" << endl;
+            return 0; // Return a sentinel value or handle this better as needed.
+        }
     }
 
     bool isEmpty()
@@ -111,23 +116,19 @@ public:
 
 int main()
 {
-    // ListaNode *l = new ListaNode(5);
-
-    // for (int i = 0; i < 10; i++)
-    // {
-    //     l->felfuz(rand() % 101);
-    // }
-
-    // l->print();
-
     Queue q;
     for (int i = 0; i < 10; i++)
     {
         q.push(rand() % 101);
     }
+
+    // Display the queue elements
+    cout << "Queue contents: ";
     while (!q.isEmpty())
     {
         cout << q.pop() << " ";
     }
+    cout << endl;
+
     return 0;
 }
