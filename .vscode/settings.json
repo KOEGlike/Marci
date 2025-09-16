@@ -3,5 +3,6 @@
         "iostream": "cpp",
         "new": "cpp"
     },
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "C_Cpp.default.compilerPath": "c:\\OJIKit\\CodeBlocks\\MinGW\\bin\\g++.exe"
 }
