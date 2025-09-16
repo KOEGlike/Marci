@@ -1,4 +1,6 @@
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
@@ -64,6 +66,30 @@ public:
         }
     }
 
+    void beszur_rendez(int adat)
+    {
+        if (head == nullptr)
+        {
+            head = tail = new ListElement(adat);
+        }
+        else
+        {
+
+            if (adat >= head->adat)
+            {
+                head = new ListElement(adat, head);
+            }
+            else
+            {
+                ListElement *p;
+                for (p = head; p->next != nullptr && p->next->adat > adat; p = p->next)
+                    ;
+
+                p->next = new ListElement(adat, p->next);
+            }
+        }
+    }
+
     void kiir()
     {
         ListElement *i = head;
@@ -77,11 +103,14 @@ public:
 
 main()
 {
+    srand(time(0));
     List l = List();
-    for (int i = 0; i < 10; i++)
+    for (int i = 100; i > 0; i--)
     {
-        l.beszur_hatul(i);
-        l.beszur_elol(i * 2);
+        int x = rand() % 1000;
+        cout << x << " ";
+        l.beszur_rendez(x);
     }
+    cout << endl;
     l.kiir();
 }
