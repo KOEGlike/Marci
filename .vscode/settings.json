@@ -1,7 +1,8 @@
 {
     "files.associations": {
         "iostream": "cpp",
-        "new": "cpp"
+        "new": "cpp",
+        "ostream": "cpp"
     },
     "editor.formatOnSave": true,
     "C_Cpp.default.compilerPath": "c:\\OJIKit\\CodeBlocks\\MinGW\\bin\\g++.exe"
