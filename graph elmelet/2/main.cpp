@@ -106,11 +106,11 @@ public:
     friend List fesul(List &l1, List &l2);
 };
 
-void feltolt(List &l, int n)
+void feltolt(List &l, int n, int max)
 {
     for (int i = 0; i < n; i++)
     {
-        l.beszur_rendez(rand());
+        l.beszur_rendez(rand() % max);
     }
 }
 
@@ -171,8 +171,8 @@ List fesul_maskepp(List &l1, List &l2)
             }
             else
             {
-                tmp->next = p3head;
-                p3head = tmp;
+                p3tail->next = tmp;
+                p3tail = tmp;
             }
             p2head = p2head->next;
         }
@@ -188,8 +188,8 @@ int main()
     srand(time(0));
     int n = 5;
     List l1 = List(), l2 = List();
-    feltolt(l1, n);
-    feltolt(l2, n);
+    feltolt(l1, n, 100);
+    feltolt(l2, n, 100);
     l1.kiir();
     l2.kiir();
     List l3 = fesul_maskepp(l1, l2);
