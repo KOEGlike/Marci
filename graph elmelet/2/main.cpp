@@ -53,13 +53,37 @@ public:
             this->~List();
 
             head = tail = nullptr;
-            for (ListElement *ptr = other.ehad; ptr != nullptr; ptr = ptr->next)
+            for (ListElement *ptr = other.head; ptr != nullptr; ptr = ptr->next)
             {
                 beszur_hatul(ptr->adat);
             }
         }
         return *this;
     }
+
+    friend List operator+(const List &a, List &b)
+    {
+        List c;
+        c = a;
+        for (ListElement *ptr = b.head; ptr != nullptr; ptr = ptr->next)
+        {
+            c.beszur_hatul(ptr->adat);
+        }
+        return c;
+    }
+
+    friend ostream &operator<<(ostream &os, const List &lista)
+    {
+        ListElement *i = lista.head;
+        while (i)
+        {
+            os << i->adat << " ";
+            i = i->next;
+        }
+        os << endl;
+        return os;
+    }
+
     void beszur_hatul(int adat)
     {
         ListElement *new_element = new ListElement(adat);
@@ -247,4 +271,16 @@ int main()
     List list5;
     list5 = list4;
     list5.kiir();
+
+    List a, b;
+
+    for (int i = 0; i < 6; i++)
+    {
+        a.beszur_hatul(i);
+    }
+    for (int i = 6; i < 11; i++)
+    {
+        b.beszur_hatul(i);
+    }
+    cout << a + b;
 }
