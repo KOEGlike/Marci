@@ -15,7 +15,7 @@ struct ListElement
     }
     ~ListElement()
     {
-        if (next)
+        if (next != nullptr)
         {
             delete next;
         }
@@ -33,10 +33,32 @@ public:
     {
         head = tail = nullptr;
     }
+    List(const List &other)
+    {
+        head = tail = nullptr;
+        for (ListElement *ptr = other.head; ptr != nullptr; ptr = ptr->next)
+        {
+            beszur_hatul(ptr->adat);
+        }
+    }
     ~List()
     {
         delete head;
         head = tail = nullptr;
+    }
+    List &operator=(const List &other)
+    {
+        if (this != &other)
+        {
+            this->~List();
+
+            head = tail = nullptr;
+            for (ListElement *ptr = other.ehad; ptr != nullptr; ptr = ptr->next)
+            {
+                beszur_hatul(ptr->adat);
+            }
+        }
+        return *this;
     }
     void beszur_hatul(int adat)
     {
@@ -207,6 +229,7 @@ int main()
 {
     srand(time(0));
     int n = 20;
+
     List l1 = List(), l2 = List();
     feltolt_rendez(l1, n);
     l1.kiir();
@@ -214,9 +237,14 @@ int main()
     l2.kiir();
     List list3 = fesul(l1, l2);
     list3.kiir();
+
     List list4;
     feltolt_elol(list4, n);
     list4.kiir();
     list4.rendez();
     list4.kiir();
+
+    List list5;
+    list5 = list4;
+    list5.kiir();
 }
