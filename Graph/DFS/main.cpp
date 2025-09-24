@@ -2,6 +2,7 @@
 #include <fstream>
 #include <stack>
 #include <vector>
+#include <queue>
 
 #define N 50
 
@@ -64,6 +65,26 @@ void dfs(int n, int graf[][N], int start)
 
 void bfs(int n, int graf[][N], int start)
 {
+    queue<int> verem;
+    bool visited[n] = {0};
+    verem.push(start);
+    while (!verem.empty())
+    {
+        int u = verem.front();
+        verem.pop();
+        if (!visited[u])
+        {
+            visited[u] = true;
+            cout << u << " ";
+            for (int i = 0; i < n; i++)
+            {
+                if (!visited[i] && graf[u][i])
+                {
+                    verem.push(i);
+                }
+            }
+        }
+    }
 }
 
 int main()
@@ -72,5 +93,7 @@ int main()
     int csSz = beOlvas("C:\\Users\\Elev\\Documents\\XI.A\\Marci\\Graph\\DFS\\graf.txt", graf);
     kiIr(csSz, graf);
     dfs(csSz, graf, 0);
-    cout << csSz;
+    cout << endl;
+    bfs(csSz, graf, 0);
+    // cout << csSz;
 }
