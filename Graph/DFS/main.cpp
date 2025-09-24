@@ -39,7 +39,7 @@ void kiIr(int n, int graf[][N])
     }
 }
 
-void dfs(int n, int graf[][N], int start)
+int dfs(int n, int graf[][N], int start)
 {
     stack<int> verem;
     bool visited[n] = {0};
@@ -61,17 +61,26 @@ void dfs(int n, int graf[][N], int start)
             }
         }
     }
+    int nr_visited = 0;
+    for (int i = 0; i < n; i++)
+    {
+        if (visited[i])
+        {
+            nr_visited++;
+        }
+    }
+    return nr_visited;
 }
 
 void bfs(int n, int graf[][N], int start)
 {
-    queue<int> verem;
+    queue<int> sor;
     bool visited[n] = {0};
-    verem.push(start);
-    while (!verem.empty())
+    sor.push(start);
+    while (!sor.empty())
     {
-        int u = verem.front();
-        verem.pop();
+        int u = sor.front();
+        sor.pop();
         if (!visited[u])
         {
             visited[u] = true;
@@ -80,7 +89,7 @@ void bfs(int n, int graf[][N], int start)
             {
                 if (!visited[i] && graf[u][i])
                 {
-                    verem.push(i);
+                    sor.push(i);
                 }
             }
         }
@@ -92,8 +101,7 @@ int main()
     int graf[N][N] = {0};
     int csSz = beOlvas("C:\\Users\\Elev\\Documents\\XI.A\\Marci\\Graph\\DFS\\graf.txt", graf);
     kiIr(csSz, graf);
-    dfs(csSz, graf, 0);
-    cout << endl;
-    bfs(csSz, graf, 0);
+    int nr = dfs(csSz, graf, 0);
+    cout << (nr < csSz ? "nem osszefuggo" : "osszefuggo");
     // cout << csSz;
 }
