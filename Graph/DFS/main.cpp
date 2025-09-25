@@ -3,6 +3,7 @@
 #include <stack>
 #include <vector>
 #include <queue>
+#include <array>
 
 #define N 50
 
@@ -14,10 +15,9 @@ int beOlvas(string fileName, int graf[][N])
     int csSz = 0;
     f >> csSz;
 
-    while (f)
+    int x, y;
+    while (f >> x >> y) // Check if read operation succeeded
     {
-        int x, y;
-        f >> x >> y;
         x--;
         y--;
         graf[x][y] = 1;
@@ -39,43 +39,35 @@ void kiIr(int n, int graf[][N])
     }
 }
 
-int dfs(int n, int graf[][N], int start)
+vector<bool> dfs(int n, int graf[][N], int start)
 {
     stack<int> verem;
-    bool visited[n] = {0};
+    vector<bool> visited(n);
     verem.push(start);
+    visited[start] = true; // Mark as visited when pushing
+
     while (!verem.empty())
     {
         int u = verem.top();
         verem.pop();
-        if (!visited[u])
+        // cout << u + 1 << " ";
+
+        for (int i = n - 1; i >= 0; i--)
         {
-            visited[u] = true;
-            cout << u << " ";
-            for (int i = 0; i < n; i++)
+            if (!visited[i] && graf[u][i])
             {
-                if (!visited[i] && graf[u][i])
-                {
-                    verem.push(i);
-                }
+                visited[i] = true;
+                verem.push(i);
             }
         }
     }
-    int nr_visited = 0;
-    for (int i = 0; i < n; i++)
-    {
-        if (visited[i])
-        {
-            nr_visited++;
-        }
-    }
-    return nr_visited;
+    return visited;
 }
 
-void bfs(int n, int graf[][N], int start)
+vector<bool> bfs(int n, int graf[][N], int start)
 {
     queue<int> sor;
-    bool visited[n] = {0};
+    vector<bool> visited(n);
     sor.push(start);
     while (!sor.empty())
     {
@@ -84,7 +76,6 @@ void bfs(int n, int graf[][N], int start)
         if (!visited[u])
         {
             visited[u] = true;
-            cout << u << " ";
             for (int i = 0; i < n; i++)
             {
                 if (!visited[i] && graf[u][i])
@@ -94,6 +85,59 @@ void bfs(int n, int graf[][N], int start)
             }
         }
     }
+    return visited;
+}
+
+bool all_true(vector<bool> vec)
+{
+    for (bool i : vec)
+    {
+        if (!i)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool merge_bools(vector<bool> &into, vector<bool> &from)
+{
+    for (int i = 0; i < into.size() && i < from.size(); i++)
+    {
+        if (from[i])
+        {
+            into[i] = true;
+        }
+    }
+}
+
+vector<vector<int>> szamol(int n, int graf[][N])
+{
+    vector<bool> visited(n);
+    vector<vector<int>> szegmensek;
+    while (!all_true(visited))
+    {
+        for (int i = 0; i < n; i++)
+        {
+            if (!visited[i])
+            {
+                vector<bool> vec = dfs(n, graf, i);
+
+                merge_bools(visited, vec);
+
+                vector<int> elemek;
+                for (int i = 0; i < vec.size(); i++)
+                {
+                    if (vec[i])
+                    {
+                        elemek.push_back(i);
+                    }
+                }
+                szegmensek.push_back(elemek);
+            }
+        }
+    }
+    return szegmensek;
 }
 
 int main()
@@ -101,7 +145,16 @@ int main()
     int graf[N][N] = {0};
     int csSz = beOlvas("C:\\Users\\Elev\\Documents\\XI.A\\Marci\\Graph\\DFS\\graf.txt", graf);
     kiIr(csSz, graf);
-    int nr = dfs(csSz, graf, 0);
-    cout << (nr < csSz ? "nem osszefuggo" : "osszefuggo");
-    // cout << csSz;
+    cout << endl;
+
+    vector<vector<int>> szegmensek = szamol(csSz, graf);
+
+    for (vector<int> sz : szegmensek)
+    {
+        for (int e : sz)
+        {
+            cout << e << " ";
+        }
+        cout << endl;
+    }
 }
