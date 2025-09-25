@@ -149,6 +149,7 @@ int main()
 
     vector<vector<int>> szegmensek = szamol(csSz, graf);
 
+    cout << "graph szegmensei: \n";
     for (vector<int> sz : szegmensek)
     {
         for (int e : sz)
