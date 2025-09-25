@@ -100,7 +100,7 @@ bool all_true(vector<bool> vec)
     return true;
 }
 
-bool merge_bools(vector<bool> &into, vector<bool> &from)
+void merge_bools(vector<bool> &into, vector<bool> &from)
 {
     for (int i = 0; i < into.size() && i < from.size(); i++)
     {
