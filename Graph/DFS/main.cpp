@@ -143,7 +143,7 @@ vector<vector<int>> szamol(int n, int graf[][N])
 int main()
 {
     int graf[N][N] = {0};
-    int csSz = beOlvas("C:\\Users\\Elev\\Documents\\XI.A\\Marci\\Graph\\DFS\\graf.txt", graf);
+    int csSz = beOlvas("./graf.txt", graf);
     kiIr(csSz, graf);
     cout << endl;
 
