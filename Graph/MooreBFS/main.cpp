@@ -42,7 +42,6 @@ vector<int> moore(int graf[][N], int n, int start)
     queue<int> sor;
     vector<int> p(n, -1);
 
-    sor.push(start);
     p[start] = start;
     sor.push(start);
     while (!sor.empty())
@@ -66,8 +65,27 @@ vector<int> moore(int graf[][N], int n, int start)
 void kiirUtvonal(int start, int finish, int graf[][N], int n)
 {
     vector<int> p = moore(graf, n, start);
+    // Check if path exists
+    if (p[finish] == -1 && finish != start)
+    {
+        cout << "No path exists from " << start << " to " << finish;
+        return;
+    }
+
+    // Print path in reverse order (finish to start)
+    cout << finish;
     int x = p[finish];
-    while (x != start &&)
+
+    while (x != start && x != -1)
+    {
+        cout << "->" << x;
+        x = p[x];
+    }
+
+    if (x == start && finish != start)
+    {
+        cout << "->" << start;
+    }
 }
 
 int main()
@@ -78,10 +96,11 @@ int main()
     kiIr(n, graf);
     cout << endl;
 
-    vector<int> p = moore(graf, n, 0);
+    // vector<int> p = moore(graf, n, 0);
 
-    for (int e : p)
-    {
-        cout << e << " ";
-    }
+    // for (int e : p)
+    // {
+    //     cout << e << " ";
+    // }
+    kiirUtvonal(0, 6, graf, n);
 }

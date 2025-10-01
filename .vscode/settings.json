@@ -6,5 +6,5 @@
         "iosfwd": "cpp"
     },
     "editor.formatOnSave": true,
-    "C_Cpp.default.compilerPath": "c:\\OJIKit\\CodeBlocks\\MinGW\\bin\\gcc.exe"
+    "C_Cpp.default.compilerPath": "c:\\OJIKit\\CodeBlocks\\MinGW\\bin\\g++.exe"
 }
