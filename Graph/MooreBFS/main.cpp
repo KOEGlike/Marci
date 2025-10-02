@@ -16,7 +16,7 @@ int beOlvas(string fileName, int graf[][N])
     f >> csSz;
 
     int x, y;
-    while (f >> x >> y) // Check if read operation succeeded
+    while (f >> x >> y)
     {
         graf[x][y] = 1;
         graf[y][x] = 1;
