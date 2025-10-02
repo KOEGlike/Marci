@@ -49,10 +49,27 @@ void kiirFokszamok(int csSz, int graf[][N])
     }
 }
 
+void kiirIzolalt(int csSz, int graf[][N])
+{
+    for (int i = 0; i < csSz; i++)
+    {
+        bool izol = true;
+        for (int j = 0; j < csSz && izol; j++)
+        {
+            if (graf[i][j] == 1)
+            {
+                izol = false;
+            }
+        }
+        cout << i << ":" << (izol ? "izol" : "nem izol") << endl;
+    }
+}
+
 int main()
 {
     int graf[N][N] = {0};
     int csSz = beOlvas("C:/Users/Elev/Documents/XI.A/Marci/Graph/FokSzam/graf.txt", graf);
     kiIr(csSz, graf);
-    kiirFokszamok(csSz, graf);
+    // kiirFokszamok(csSz, graf);
+    kiirIzolalt(csSz, graf);
 }
