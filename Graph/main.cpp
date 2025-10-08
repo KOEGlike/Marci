@@ -288,10 +288,25 @@ bool erdoe(int graf[][N], int n)
     } while (start != -1);
 }
 
+void dfsRec(int graf[][N], int n, int start)
+{
+    visited[start] = true;
+    cout << start << " ";
+    for (int i = 0; i < n; i++)
+    {
+        if (graf[start][i] && !visited[i])
+        {
+            visited[i] = true;
+            p[i] = start;
+            dfsRec(graf, n, i);
+        }
+    }
+}
+
 int main()
 {
     int graf[N][N] = {0};
-    int n = beOlvas("C:/Users/Elev/Documents/XI.A/Marci/Graph/graf.txt", graf); // csomopontok szama
+    int n = beOlvas("graf.txt", graf); // csomopontok szama
     kiIr(graf, n);
     int graf_komplementer[N][N];
     komplementer(graf, graf_komplementer, n);
@@ -324,11 +339,16 @@ int main()
 
     cout << "Izolalt pontok szama: " << izolaltPontokSzama(graf, n) << endl;
 
-    cout << "korments: " << korMentes(graf, n) << endl;
+    cout << "korments: " << korMentes(graf, n) << endl
+         << endl;
 
-    cout << "fae: " << fae(graf, n) << endl;
-
-    cout << "erdoe: " << erdoe(graf, n);
-
+    feltolt(visited, n, 0);
+    feltolt(p, n, -1);
+    cout << "DFS rec: ";
+    dfsRec(graf, n, 1);
+    for (int i = 0; i < n; i++)
+    {
+        cout << i << "-" << p[i] << endl;
+    }
     return 0;
 }

@@ -251,6 +251,7 @@ List fesul(List list1, List list2)
 
 int main()
 {
+
     srand(time(0));
     int n = 20;
 
