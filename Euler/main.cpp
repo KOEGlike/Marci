@@ -1,13 +1,10 @@
 #include <iostream>
 #include <fstream>
-#include <fstream>
-#include <stack>
-#include <queue>
-#include <climits>
-
 #define N 50
 
 using namespace std;
+
+int iranyitatlan_fokszam[N];
 
 int beOlvas(string fileName, int graf[][N])
 {
@@ -15,17 +12,16 @@ int beOlvas(string fileName, int graf[][N])
     int n = 0; // csomopontok szama
     f >> n;
 
-    int i, j, w;
-    while (f >> i >> j >> w)
+    int i, j, elSzam;
+    while (f >> i >> j >> elSzam)
     {
-        graf[i][j] = w;
-        graf[j][i] = w;
+        graf[i][j] = elSzam;
+        graf[j][i] = elSzam;
     }
 
     return n;
 }
 
-// Kiirja a graf adjacencia(szomszedsagi) matrixat
 void kiIr(int graf[][N], int n)
 {
     cout << "Szomszedsagi matrix:" << endl;
@@ -44,26 +40,20 @@ struct fokszam
     int be;
     int ki;
 };
-fokszam iranyitottFokszamok[N];
 
-int iranyitattlanFokszamok[N];
-
-void feltoltFokszam(int graf[][N], int n)
+fokszam fokszamok[N];
+void feltoltFokszamok(int graf[][N], int n)
 {
     for (int i = 0; i < n; i++)
     {
-        iranyitottFokszamok[i].ki = 0;
-        iranyitottFokszamok[i].be = 0;
+        fokszamok[i].ki = 0;
+        fokszamok[i].be = 0;
         for (int j = 0; j < n; j++)
         {
             if (graf[i][j])
-            {
-                iranyitottFokszamok[i].ki += graf[i][j];
-            }
+                fokszamok[i].ki += graf[i][j];
             if (graf[j][i])
-            {
-                iranyitottFokszamok[j].be += graf[j][i];
-            }
+                fokszamok[i].be += graf[j][i];
         }
     }
 }
@@ -72,27 +62,37 @@ void csomopontokFokszama(int graf[][N], int n)
 {
     for (int i = 0; i < n; i++)
     {
-        iranyitattlanFokszamok[i] = 0;
+        iranyitatlan_fokszam[i] = 0;
         for (int j = 0; j < n; j++)
         {
             if (graf[i][j])
-            {
-                iranyitattlanFokszamok[i] += graf[i][j];
-            }
+                iranyitatlan_fokszam[i] += graf[i][j];
         }
     }
 }
 
-bool euler_iranyitattlan(int graf[][N], int n)
+bool euler_iranyitatlan(int n)
 {
     for (int i = 0; i < n; i++)
     {
-        if (iranyitattlanFokszamok[i] % 2 == 1)
+        if (iranyitatlan_fokszam[i] % 2 != 0)
         {
-            return false;
+            return 0;
         }
     }
-    return true;
+    return 1;
+}
+
+bool euler_iranyitott(int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        if (fokszamok[i].be != fokszamok[i].ki)
+        {
+            return 0;
+        }
+    }
+    return 1;
 }
 
 int main()
@@ -100,6 +100,33 @@ int main()
     int graf[N][N] = {0};
     int n = beOlvas("graf.txt", graf);
     kiIr(graf, n);
-    feltoltFokszam(graf, n);
-    cout << "euler: " << euler_iranyitattlan(graf, n);
+    /*feltoltFokszamok(graf, n);//iranyitott
+    for(int i=0; i<n; i++){
+        cout<<i<<": "<<fokszamok[i].be<<" , "<<fokszamok[i].ki<<"\n";
+    }
+
+    if(euler_iranyitott(n)){
+        cout<<"Van euler vonal \n";
+    }
+    else{
+        cout<<"Nincs euler vonal \n";
+    }
+
+
+
+    */
+    csomopontokFokszama(graf, n); // iranyitott
+    for (int i = 0; i < n; i++)
+    {
+        cout << i << ": " << iranyitatlan_fokszam[i] << "\n";
+    }
+    if (euler_iranyitatlan(n))
+    {
+        cout << "Van euler vonal \n";
+    }
+    else
+    {
+        cout << "Nincs euler vonal \n";
+    }
+    return 0;
 }
