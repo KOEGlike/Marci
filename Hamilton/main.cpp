@@ -6,15 +6,16 @@ using namespace std;
 
 int graf[N][N] = {0};
 int verem[N] = {0};
-int n; // csomopontok szama
+int n; //csomopontok szama
+
 
 int beOlvas(string fileName, int graf[][N])
 {
     ifstream f(fileName);
-    int n = 0; // csomopontok szama
+    int n = 0;   //csomopontok szama
     f >> n;
     int i, j;
-    while (f >> i >> j)
+    while(f >> i >> j)
     {
         graf[i][j] = 1;
         graf[j][i] = 1;
@@ -25,9 +26,8 @@ int beOlvas(string fileName, int graf[][N])
 void kiIr(int graf[][N], int n)
 {
     cout << "Szomszedsagi matrix:" << endl;
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < n; j++)
+    for(int i = 0; i < n; i++){
+        for(int j = 0; j < n; j++)
         {
             cout << graf[i][j] << ' ';
         }
@@ -37,40 +37,39 @@ void kiIr(int graf[][N], int n)
 
 bool megoldas(int szint)
 {
-    if (szint == n)
-        return true;
+    if(szint==n && graf[verem[szint-1]][verem[0]]==1) return true;
     return false;
 }
 
 bool jo(int szint)
 {
-    if (szint > 0 && graf[verem[szint]][verem[szint - 1]] == 0)
+    if(szint > 0 && graf[verem[szint]][verem[szint - 1]] == 0)
         return false;
-    for (int i = 0; i < szint; i++)
-        if (verem[i] == verem[szint])
+    for(int i = 0; i < szint; i++)
+        if(verem[i] == verem[szint])
             return false;
     return true;
 }
 
 void kiirMegoldas()
 {
-    cout << "Hamilton: ";
-    for (int i = 0; i < n; i++)
-        cout << verem[i] << " ";
-    cout << endl;
+    cout<<"Hamilton: ";
+    for(int i=0;i<n;i++)
+        cout<<verem[i]<<" ";
+    cout<<verem[0];
+    cout<<endl;
 }
 
 void back(int szint)
 {
-    if (megoldas(szint))
+    if(megoldas(szint))
     {
         kiirMegoldas();
-        return;
     }
-    for (int i = 0; i < n; i++)
+    for(int i=0;i<n;i++)
     {
         verem[szint] = i;
-        if (jo(szint))
+        if(jo(szint))
         {
             back(szint + 1);
         }
@@ -81,6 +80,8 @@ int main()
 {
     n = beOlvas("graf.txt", graf);
     kiIr(graf, n);
+
+    ///verem[0]=0;
 
     back(0);
     return 0;
